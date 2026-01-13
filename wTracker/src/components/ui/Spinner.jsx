@@ -1,8 +1,10 @@
 const Spinner = () => (
-  <div style={{ textAlign: "center", padding: "2rem" }}>
-    <div className="spinner" />
-    <p>Loading...</p>
+  <div className="wt-loading-shell">
+    <div className="flex flex-col items-center justify-center">
+      <div className="wt-spinner-orbit" />
+      <p className="wt-spinner-label tracking-[0.2em]">Loading</p>
+    </div>
   </div>
-);
+)
 
 export default Spinner;

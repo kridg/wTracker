@@ -1,8 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import Landing from './pages/Landing'
 import Login from './pages/auth/Login'
 import WorkoutLogs from './pages/dashboard/WorkoutLogs'
 import Register from './pages/auth/Register'
@@ -13,8 +11,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
-    // DECLARATIVE
     <Routes>
+      <Route path='/' element={<Landing/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
 
@@ -26,7 +24,7 @@ function App() {
         </Route>
       </Route>
 
-      <Route path='*' element={<Navigate to="/login" />} />
+      <Route path='*' element={<Navigate to="/" />} />
     </Routes>
   )
 }

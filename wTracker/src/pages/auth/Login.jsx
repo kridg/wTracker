@@ -1,19 +1,25 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { loginUser } from "../../api/auth"
 import { useAuth } from "../../context/AuthContext"
+import { notifyError, notifySuccess } from "../../utils/notify"
 
 const Login = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">
-          Welcome Back
-        </h1>
+    <div className="wt-auth-shell">
+      <div className="wt-auth-card">
+        <div className="text-center mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black mb-2 tracking-tight text-gray-900">
+            Welcome Back
+          </h1>
+          <p className="text-sm md:text-base text-gray-600 font-medium">
+            Log your sessions and stay consistent with your training.
+          </p>
+        </div>
 
         <Formik
           initialValues={{ username: "", password: "" }}
@@ -25,8 +31,10 @@ const Login = () => {
             try {
               const data = await loginUser(values)
               login(data.access, data.refresh)
+              notifySuccess("Logged in successfully")
               navigate("/dashboard")
-            } catch {
+            } catch (error) {
+              notifyError(error.response?.data?.detail || "Invalid username or password")
               setErrors({ password: "Invalid username or password" })
             } finally {
               setSubmitting(false)
@@ -34,54 +42,69 @@ const Login = () => {
           }}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-4">
+            <Form className="space-y-5">
               <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-2 tracking-wider">
+                  Username
+                </label>
                 <Field
                   name="username"
-                  placeholder="Username"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="Enter your username"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all shadow-sm font-medium"
                 />
                 <ErrorMessage
                   name="username"
                   component="div"
-                  className="text-red-500 text-sm mt-1"
+                  className="text-red-600 text-sm mt-1.5 font-medium"
                 />
               </div>
 
               <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-2 tracking-wider">
+                  Password
+                </label>
                 <Field
                   name="password"
                   type="password"
-                  placeholder="Password"
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="Enter your password"
+                  className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all shadow-sm font-medium"
                 />
                 <ErrorMessage
                   name="password"
                   component="div"
-                  className="text-red-500 text-sm mt-1"
+                  className="text-red-600 text-sm mt-1.5 font-medium"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition"
+                className="w-full wt-btn-primary mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "Logging in..." : "Login"}
+                {isSubmitting ? "Logging in..." : "Sign In"}
               </button>
             </Form>
           )}
         </Formik>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="text-center text-sm text-gray-600 mt-8">
           Don't have an account?{" "}
-          <span
-            className="text-black font-medium cursor-pointer"
-            onClick={() => navigate("/register")}
+          <Link
+            to="/register"
+            className="text-red-600 font-bold hover:text-red-700 transition-colors"
           >
-            Register
-          </span>
+            Create Account
+          </Link>
         </p>
+
+        <div className="mt-6 text-center">
+          <Link
+            to="/"
+            className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   )
