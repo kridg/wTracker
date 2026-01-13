@@ -1,0 +1,122 @@
+import React from 'react'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { registerUser } from '../../api/auth'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
+import * as Yup from "yup"
+
+const Register = () => {
+    const navigate=useNavigate()
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+            <h1 className="text-2xl font-bold text-center mb-6">
+              Welcome to wTracker!
+            </h1>
+            <Formik
+              initialValues={{
+                 username: "", 
+                 email: "", 
+                 password: "", 
+                 confirmPassword:""
+                }}
+              validationSchema={Yup.object({
+                username: Yup.string().required("Username is required"),
+                email:Yup.string().email().required("Email is required"),
+                password: Yup.string().required("Password is required"),
+                confirmPassword: Yup.string().oneOf([Yup.ref("password")],"Passwords must match").required("Required"),
+              })}
+              onSubmit={async (values, { setSubmitting, setErrors }) => {
+                try {
+                  await registerUser(values)
+                  navigate("/login")
+                } catch {
+                  setErrors({ username: "Registration failed" })
+                } finally {
+                  setSubmitting(false)
+                }
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="space-y-4">
+                  <div>
+                    <Field
+                      name="username"
+                      placeholder="Username"
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-red-500 text-sm mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Field
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm mt-1"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Field
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-500 text-sm mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Field
+                      name="confirmPassword"
+                      type="password"
+                      placeholder="confirmPassword"
+                      className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-500 text-sm mt-1"
+                    />
+                  </div>
+    
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition"
+                  >
+                    {isSubmitting ? "Creating user..." : "Register"}
+                  </button>
+                </Form>
+              )}
+            </Formik>
+    
+            <p className="text-center text-sm text-gray-600 mt-6">
+              Already have an account?{" "}
+              <span
+                className="text-black font-medium cursor-pointer"
+                onClick={() => navigate("/register")}
+              >
+                Sign In
+              </span>
+            </p>
+          </div>
+        </div>
+  )
+}
+
+export default Register
