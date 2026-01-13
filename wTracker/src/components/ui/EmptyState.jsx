@@ -1,8 +1,8 @@
 const EmptyState = ({ title, action }) => (
-  <div style={{ textAlign: "center", padding: "3rem", opacity: 0.8 }}>
-    <h3>{title}</h3>
-    {action}
+  <div className="wt-empty">
+    <h3 className="wt-empty-title">{title}</h3>
+    {action && <div className="wt-empty-hint">{action}</div>}
   </div>
-);
+)
 
 export default EmptyState;

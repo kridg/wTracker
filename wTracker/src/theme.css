@@ -1,0 +1,273 @@
+:root {
+  --wt-bg: #fafafa;
+  --wt-bg-soft: #f5f5f5;
+  --wt-surface: #ffffff;
+  --wt-surface-soft: #ffffff;
+  --wt-border-subtle: rgba(0, 0, 0, 0.06);
+  --wt-border-red: rgba(220, 38, 38, 0.15);
+  --wt-primary: #dc2626;
+  --wt-primary-soft: #fee2e2;
+  --wt-primary-strong: #b91c1c;
+  --wt-primary-dark: #991b1b;
+  --wt-accent: #ef4444;
+  --wt-danger: #dc2626;
+  --wt-text-main: #111827;
+  --wt-text-soft: #6b7280;
+  --wt-text-red: #b91c1c;
+  --wt-radius-lg: 1rem;
+  --wt-radius-xl: 1.5rem;
+  --wt-shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --wt-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --wt-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --wt-shadow-red: 0 10px 25px rgba(220, 38, 38, 0.3), 0 4px 10px rgba(220, 38, 38, 0.2);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--wt-bg);
+  color: var(--wt-text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App shell containers */
+.wt-app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+.wt-page {
+  padding-block: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .wt-page {
+    padding-block: 2.5rem;
+  }
+}
+
+/* Cards */
+.wt-card {
+  border-radius: var(--wt-radius-xl);
+  border: 1px solid var(--wt-border-subtle);
+  background-color: var(--wt-surface);
+  box-shadow: var(--wt-shadow-md);
+  color: var(--wt-text-main);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.wt-card:hover {
+  box-shadow: var(--wt-shadow-lg);
+  transform: translateY(-1px);
+}
+
+.wt-card-soft {
+  border-radius: var(--wt-radius-lg);
+  border: 1px solid var(--wt-border-red);
+  background-color: var(--wt-surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--wt-shadow-soft);
+}
+
+.wt-card-soft:hover {
+  border-color: rgba(220, 38, 38, 0.25);
+  box-shadow: var(--wt-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Buttons */
+.wt-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background-color: var(--wt-primary);
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  border: none;
+  box-shadow: var(--wt-shadow-red);
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+    box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wt-btn-primary:hover {
+  background-color: var(--wt-primary-strong);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(220, 38, 38, 0.45);
+}
+
+.wt-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 10px 24px rgba(220, 38, 38, 0.35);
+}
+
+.wt-btn-ghost {
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background-color: #ffffff;
+  color: var(--wt-text-main);
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.12s ease-out, color 0.12s ease-out,
+    border-color 0.12s ease-out;
+}
+
+.wt-btn-ghost:hover {
+  background-color: var(--wt-primary-soft);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: var(--wt-primary-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+}
+
+/* Page headings */
+.wt-page-title {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  color: var(--wt-text-main);
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .wt-page-title {
+    font-size: 2rem;
+  }
+}
+
+.wt-page-subtitle {
+  font-size: 0.85rem;
+  color: var(--wt-text-soft);
+}
+
+/* Auth background */
+.wt-auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+}
+
+@media (min-width: 640px) {
+  .wt-auth-shell {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+.wt-auth-card {
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  color: var(--wt-text-main);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .wt-auth-card {
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .wt-auth-card:hover {
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (min-width: 640px) {
+  .wt-auth-card {
+    padding: 3rem 2.5rem 3rem;
+  }
+}
+
+/* Spinner + loading overlays */
+.wt-loading-shell {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wt-spinner-orbit {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 3px solid rgba(220, 38, 38, 0.2);
+  border-top-color: var(--wt-primary);
+  animation: wt-spin 0.7s linear infinite;
+}
+
+.wt-spinner-label {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wt-text-soft);
+}
+
+@keyframes wt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty state */
+.wt-empty {
+  padding: 2.5rem 1.75rem;
+  border-radius: 1.5rem;
+  border: 2px dashed rgba(220, 38, 38, 0.3);
+  background-color: var(--wt-surface);
+  text-align: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.wt-empty:hover {
+  border-color: rgba(220, 38, 38, 0.4);
+  background-color: #fef2f2;
+}
+
+.wt-empty-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--wt-text-main);
+}
+
+.wt-empty-hint {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--wt-text-soft);
+}
+
+/* Mobile-safe bottom spacing for pages that have fixed bottom nav/footer */
+.wt-page-with-bottom-nav {
+  padding-bottom: 5.5rem;
+}
+
+@media (min-width: 768px) {
+  .wt-page-with-bottom-nav {
+    padding-bottom: 2.5rem;
+  }
+}
+
