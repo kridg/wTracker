@@ -237,7 +237,7 @@ const WorkoutDetails = () => {
       </div>
 
       {/* FOOTER ADD Exercise */}
-      <div className="fixed bottom-0 left-0 md:left-64 right-0 p-3 md:p-4 bg-white/95 backdrop-blur-lg border-t border-gray-200 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] safe-area-inset-bottom">
+      <div className="fixed bottom-18.5 md:bottom-0 left-0 md:left-64 right-0 p-3 md:p-4 bg-white/95 backdrop-blur-lg border-t border-gray-200 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] safe-area-inset-bottom">
         <div className="max-w-2xl mx-auto flex gap-2 md:gap-3">
           <input
             type="text"
