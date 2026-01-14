@@ -8,6 +8,8 @@ python manage.py migrate
 # Collect static files for the frontend (CSS/Images)
 python manage.py collectstatic --noinput
 
+python create_admin.py
+
 # Start the server using Gunicorn
 # Replace 'config.wsgi' with 'your_project_name.wsgi' if your project is named differently
 gunicorn config.wsgi:application
