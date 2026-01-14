@@ -32,7 +32,7 @@ api.interceptors.response.use(
                 if(!refresh) throw new Error("No refresh token available")
 
                 // We use standard axios here, NOT our 'api' instance to avoid an infinite loop of 401s
-                const res = await axios.post("http://localhost:8000/api/auth/token/refresh/", {refresh}
+                const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/token/refresh/`, {refresh}
                 );
 
                 const { access } = res.data;

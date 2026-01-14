@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { createWorkout, fetchWorkoutLogs } from '../../api/workout'
 import { Link, useNavigate } from 'react-router-dom'
-import Spinner from '../../components/ui/spinner'
 import EmptyState from '../../components/ui/EmptyState'
 import { notifyError, notifySuccess } from '../../utils/notify'
+import Spinner from "../../components/ui/Spinner";
 
 const WorkoutLogs = () => {
   const [logs, setLogs] = useState([])
@@ -42,7 +42,7 @@ const WorkoutLogs = () => {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <Spinner />
+  if (loading) return <Spinner/>
   if (error) {
     return (
       <div className="wt-app-shell wt-page">
