@@ -4,7 +4,7 @@ import { fetchProfileStats } from '../../api/workout'
 import EmptyState from '../../components/ui/EmptyState'
 import { notifyError, notifySuccess } from '../../utils/notify'
 import { Activity, BarChart2, Clock3, LogOut } from 'lucide-react'
-import Spinner from '../../components/ui/spinner'
+import Spinner from '../../components/ui/Spinner'
 
 const Profile = () => {
   const { user, logout } = useAuth()

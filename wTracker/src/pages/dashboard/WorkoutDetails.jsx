@@ -9,7 +9,7 @@ import {
   updateWorkout
 } from '../../api/workout'
 import AddSet from './AddSet'
-import Spinner from '../../components/ui/spinner'
+import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
 import { notifyError, notifySuccess } from '../../utils/notify'
 
