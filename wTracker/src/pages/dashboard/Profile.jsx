@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { fetchProfileStats } from '../../api/workout'
-import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
 import { notifyError, notifySuccess } from '../../utils/notify'
 import { Activity, BarChart2, Clock3, LogOut } from 'lucide-react'
+import Spinner from '../../components/ui/spinner'
 
 const Profile = () => {
   const { user, logout } = useAuth()
