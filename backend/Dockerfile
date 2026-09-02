@@ -11,7 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py collectstatic --noinput
+# Provide a dummy secret key so settings.py parses successfully during build
+RUN DJANGO_SECRET_KEY=dummy_build_key python manage.py collectstatic --noinput
 
 RUN adduser --disabled-password --gecos '' appuser
 USER appuser
