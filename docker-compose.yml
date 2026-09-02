@@ -2,7 +2,10 @@ services:
 
   # ── Web Application (Django) ──────────────────────────────────
   web:
-    build: ./backend
+    build: 
+      context: ./backend
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION:-3.12}
     container_name: django_backend
     restart: unless-stopped
 
