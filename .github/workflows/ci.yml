@@ -1,0 +1,32 @@
+name: Docker Compose Integration Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compose-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build and Start Compose Stack
+        run: docker compose up -d --build
+
+      - name: Check Running Services
+        run: docker compose ps
+
+      - name: Test API Health Endpoint
+        run: |
+          sleep 10
+          curl -f http://localhost/api/health/ || (docker compose logs web && exit 1)
+
+      - name: Test Frontend UI Response
+        run: curl -f http://localhost/
+
+      - name: Tear Down Stack
+        run: docker compose down -v

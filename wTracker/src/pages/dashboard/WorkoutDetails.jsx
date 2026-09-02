@@ -40,7 +40,7 @@ const WorkoutDetails = () => {
   const handleUpdate = async () => {
     try {
       const updated = await updateWorkout(logId, { notes: editedNotes })
-      setWorkout(updated)
+      setWorkout((prev) => ({ ...prev, ...updated, exercises: prev.exercises }))
       setIsEditing(false)
     } catch (err) {
       notifyError("Failed to update workout notes")
@@ -195,7 +195,7 @@ const WorkoutDetails = () => {
         )}
         {workout.exercises?.map((exercise) => (
           <div key={exercise.id} className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden group hover:shadow-lg hover:border-red-300 transition-all">
-            <div className="flex justify-between items-center bg-gradient-to-r from-red-50 to-white px-6 py-5 border-b border-gray-200">
+            <div className="flex justify-between items-center bg-linear-to-r from-red-50 to-white px-6 py-5 border-b border-gray-200">
               <h3 className="text-xl font-extrabold text-gray-900 uppercase tracking-tight">{exercise.name}</h3>
               <button
                 onClick={() => handleDeleteExercise(exercise.id)}

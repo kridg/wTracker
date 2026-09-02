@@ -14,7 +14,7 @@ export const fetchWorkoutLogs = async () => {
 
 export const fetchWorkoutDetail = async (logId) => {
   try {
-    const res = await api.get(`/logs/${logId}`)
+    const res = await api.get(`/logs/${logId}/`)
     return res.data
   } catch (error) {
     notifyError(error.response?.data?.detail||"Failed to fetch Workout Detail")

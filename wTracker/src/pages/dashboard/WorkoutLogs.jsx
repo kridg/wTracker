@@ -23,16 +23,18 @@ const WorkoutLogs = () => {
       notifySuccess("New workout session created")
       navigate(`/dashboard/logs/${created.id}`)
     } catch (err) {
-      notifyError("Failed to create workout session")
+      const dateError = err.response?.data?.date
+      notifyError(
+        (Array.isArray(dateError) ? dateError[0] : dateError) ||
+          "Failed to create workout session"
+      )
     }
   }
 
   useEffect(() => {
     fetchWorkoutLogs()
       .then((data) => {
-        console.log(data);
         setLogs(data.results || data)
-        // since we have paginated data
       })
       .catch((err) => {
         console.error("Failed to fetch logs:", err);

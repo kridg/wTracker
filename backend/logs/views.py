@@ -6,7 +6,9 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwner
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from django.db.models import Max,Count
+from django.db import IntegrityError
+from django.db.models import Max
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 ###WORKOUT SESSION VIEWS
@@ -21,9 +23,12 @@ class WorkoutLogListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return WorkoutLog.objects.filter(user=self.request.user)
-    
+
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        try:
+            serializer.save(user=self.request.user)
+        except IntegrityError:
+            raise ValidationError({"date": "You already have a workout on this date."})
 
 # retrive/update/delete a session
 class WorkoutLogDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -38,7 +43,9 @@ class WorkoutLogDetailView(generics.RetrieveUpdateDestroyAPIView):
         return WorkoutLogSerializer
     
     def get_queryset(self):
-        return WorkoutLog.objects.filter(user=self.request.user)
+        return WorkoutLog.objects.filter(user=self.request.user).prefetch_related(
+            "exercises__sets"
+        )
 
 ###EXERCISE ENTRY VIEWS
 #List + Create Exercise
@@ -51,7 +58,7 @@ class ExerciseEntryListCreateView(generics.ListCreateAPIView):
         return ExerciseEntry.objects.filter(
             workout_log__id=log_id,
             workout_log__user=self.request.user
-        )
+        ).prefetch_related("sets")
     
     def perform_create(self, serializer):
         log_id=self.kwargs["log_id"]

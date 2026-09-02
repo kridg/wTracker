@@ -1,0 +1,54 @@
+services:
+
+  # ── Web Application (Django) ──────────────────────────────────
+  web:
+    build: ./backend
+    container_name: django_backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy   # Wait for PostgreSQL healthcheck before starting
+    networks:
+      - app-network
+    expose:
+      - "8000"
+
+  # ── PostgreSQL Database ──────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # ── Nginx Reverse Proxy ───────────────────────────────────────
+  nginx:
+    build: ./wTracker
+    container_name: nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    networks:
+      - app-network
+
+# ── Named Volumes ─────────────────────────────────────────────
+volumes:
+  postgres_data:
+
+# ── Custom Network ────────────────────────────────────────────
+networks:
+  app-network:
+    driver: bridge

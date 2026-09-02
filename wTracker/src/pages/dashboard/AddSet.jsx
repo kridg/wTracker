@@ -10,7 +10,7 @@ const AddSet = ({ exerciseId, onSetAdded, nextOrder }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!weight || weight < 0 || !reps || reps < 0) return
+        if (weight === "" || Number(weight) < 0 || !reps || Number(reps) < 1) return
 
         try {
             const newSet = await createSet(exerciseId, {
@@ -24,7 +24,7 @@ const AddSet = ({ exerciseId, onSetAdded, nextOrder }) => {
             setIsAdding(false);
         } catch (err) {
             console.error(err)
-            notifyError("Failed to save set. Check your backend console.")
+            notifyError("Failed to save set")
         }
 
 

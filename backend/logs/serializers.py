@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import WorkoutLog,ExerciseEntry,SetEntry
-from datetime import date
 from django.utils import timezone
 
 class SetEntrySerializer(serializers.ModelSerializer):
@@ -89,7 +88,7 @@ class WorkoutLogSerializer(serializers.ModelSerializer):
         read_only_fields=["id","created_at"]
     
     def validate_date(self,value):
-        if value.date()>timezone.now().date():
+        if value > timezone.now().date():
             raise serializers.ValidationError("Workout date cannot be set in the future")
         return value
     

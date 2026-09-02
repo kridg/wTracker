@@ -1,11 +1,8 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { Outlet } from 'react-router-dom'
 import Navigation from '../../components/Navigation'
 
 const DashboardLayout = () => {
-    const { logout } = useAuth
-
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
             <Navigation />
