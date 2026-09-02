@@ -2,6 +2,8 @@
 # Environment variables
 # =====================
 .env
+.env.*
+!.env.example
 
 # =====================
 # Python / Django
@@ -10,9 +12,13 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.sqlite3
+db.sqlite3
 
 # Virtual environment
 env/
+venv/
+.venv/
 
 # Django static
 backend/staticfiles/
@@ -21,6 +27,8 @@ backend/staticfiles/
 # Frontend
 # =====================
 frontend/node_modules/
+wTracker/node_modules/
+wTracker/dist/
 frontend/dist/
 
 # =====================

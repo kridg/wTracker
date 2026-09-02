@@ -1,7 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { Link, useNavigate } from "react-router-dom"
-import { loginUser } from "../../api/auth"
 import { useAuth } from "../../context/AuthContext"
 import { notifyError, notifySuccess } from "../../utils/notify"
 
@@ -29,8 +28,7 @@ const Login = () => {
           })}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
-              const data = await loginUser(values)
-              login(data.access, data.refresh)
+              await login(values)
               notifySuccess("Logged in successfully")
               navigate("/dashboard")
             } catch (error) {

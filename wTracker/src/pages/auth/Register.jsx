@@ -37,8 +37,14 @@ const Register = () => {
               notifySuccess("Account created. You can log in now.")
               navigate("/login")
             } catch (error) {
-              notifyError(error.response?.data?.detail || "Registration failed")
-              setErrors({ username: "Registration failed" })
+              const data = error.response?.data
+              const usernameError = Array.isArray(data?.username) ? data.username[0] : data?.username
+              const emailError = Array.isArray(data?.email) ? data.email[0] : data?.email
+              notifyError(usernameError || emailError || data?.detail || "Registration failed")
+              setErrors({
+                username: usernameError || "Registration failed",
+                ...(emailError ? { email: emailError } : {}),
+              })
             } finally {
               setSubmitting(false)
             }

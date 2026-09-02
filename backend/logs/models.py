@@ -8,7 +8,7 @@ class WorkoutLog(models.Model):
         related_name="workout_logs"
     )
 
-    date=models.DateTimeField()
+    date=models.DateField()
 
     notes=models.TextField(
         blank=True,
@@ -19,7 +19,9 @@ class WorkoutLog(models.Model):
 
     class Meta:
         ordering=["-date"]
-        unique_together=("user","date")
+        indexes = [
+            models.Index(fields=["user", "-date"]),
+        ]
 
     def __str__(self):
         return f"{self.user}-{self.date}"

@@ -1,51 +1,53 @@
-import React, { createContext, useState , useContext, useEffect } from 'react'
-import { clearTokens, setTokens, getAccessToken } from '../utils/token'
-import {jwtDecode} from "jwt-decode";
+import React, { createContext, useContext, useEffect, useState } from "react"
+import { fetchCsrfToken, fetchCurrentUser, loginUser, logoutUser } from "../api/auth"
 
-export const AuthContext=createContext(null)
+export const AuthContext = createContext(null)
 
-export const AuthProvider=({children})=>{
-    const [user,setUser]=useState(null)
-    const [loading,setLoading]=useState(true)
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-    // Restore auth on refresh
-    useEffect(()=>{
-        const token=getAccessToken()
-        if(token){
-            try{
-                const decoded=jwtDecode(token)
-                setUser(decoded)
-            }catch{
-                clearTokens()
-            }
-        } setLoading(false)
-    },[])
-
-    useEffect(()=>{
-        const handleLogout=()=>{
-            clearTokens()
-            setUser(null)
-        }
-        window.addEventListener("force-logout",handleLogout)
-        return()=>window.removeEventListener("force-logout",handleLogout)
-    },[])
-
-    const login=(access,refresh)=>{
-        setTokens(access,refresh)
-        const decoded=jwtDecode(access)
-        setUser(decoded)
-    }
-
-    const logout=()=>{
-        clearTokens()
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        await fetchCsrfToken()
+        const currentUser = await fetchCurrentUser()
+        setUser(currentUser)
+      } catch {
         setUser(null)
+      } finally {
+        setLoading(false)
+      }
     }
+    restoreSession()
+  }, [])
 
-    return(
-        <AuthContext.Provider value={{user,login,logout,loading}}>
-            {children}
-        </AuthContext.Provider>
-    )
+  useEffect(() => {
+    const handleLogout = () => setUser(null)
+    window.addEventListener("force-logout", handleLogout)
+    return () => window.removeEventListener("force-logout", handleLogout)
+  }, [])
+
+  const login = async (credentials) => {
+    const currentUser = await loginUser(credentials)
+    setUser(currentUser)
+    return currentUser
+  }
+
+  const logout = async () => {
+    try {
+      await logoutUser()
+    } catch {
+      // Cookie clear can fail if the session is already gone.
+    }
+    setUser(null)
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
-export const useAuth=()=>useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext)
