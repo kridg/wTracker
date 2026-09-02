@@ -11,8 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Provide a dummy secret key so settings.py parses successfully during build
-RUN DJANGO_SECRET_KEY=dummy_build_key python manage.py collectstatic --noinput
+# Set DJANGO_DEBUG=True so settings.py uses the dev fallback key and skips ALLOWED_HOSTS checks during build
+RUN DJANGO_DEBUG=True python manage.py collectstatic --noinput
 
 RUN adduser --disabled-password --gecos '' appuser
 USER appuser
