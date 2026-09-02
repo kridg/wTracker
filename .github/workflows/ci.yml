@@ -13,6 +13,13 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+      
+      #temp env file
+      - name: Create .env file 
+        run: | 
+          cat > .env <<EOF 
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }} POSTGRES_USER=${{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} DJANGO_DEBUG=${{ secrets.DJANGO_DEBUG }} DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }} CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} JWT_COOKIE_SECURE=${{ secrets.JWT_COOKIE_SECURE }} JWT_COOKIE_SAMESITE=${{ secrets.JWT_COOKIE_SAMESITE }} 
+          EOF
 
       - name: Build and Start Compose Stack
         run: docker compose up -d --build
@@ -30,3 +37,7 @@ jobs:
 
       - name: Tear Down Stack
         run: docker compose down -v
+
+      - name: Remove temporary .env 
+        if: always() 
+        run: rm -f .env
